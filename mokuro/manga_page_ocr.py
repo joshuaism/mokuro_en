@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from translate import Translator
 from PIL import Image
 from loguru import logger
 from scipy.signal.windows import gaussian
@@ -26,6 +27,7 @@ class MangaPageOcr:
         self.max_ratio_vert = max_ratio_vert
         self.max_ratio_hor = max_ratio_hor
         self.anchor_window = anchor_window
+        self.translator = Translator(from_lang="ja", to_lang="en-US")
 
         logger.info('Initializing text detector')
         self.text_detector = TextDetector(model_path=cache.comic_text_detector, input_size=detector_input_size,
@@ -68,6 +70,7 @@ class MangaPageOcr:
 
                 result_blk['lines_coords'].append(line.tolist())
                 result_blk['lines'].append(line_text)
+                result_blk['lines'].append(self.translator.translate(line_text))
 
             result['blocks'].append(result_blk)
 

@@ -12,4 +12,5 @@ scipy
 shapely
 torchsummary
 tqdm
+translate
 yattag
